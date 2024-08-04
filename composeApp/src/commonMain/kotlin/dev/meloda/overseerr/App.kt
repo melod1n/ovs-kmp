@@ -1,100 +1,78 @@
 package dev.meloda.overseerr
 
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import overseerr.composeapp.generated.resources.*
+import dev.meloda.overseerr.model.Platform
 import dev.meloda.overseerr.theme.AppTheme
-import dev.meloda.overseerr.theme.LocalThemeIsDark
-import kotlinx.coroutines.isActive
-import org.jetbrains.compose.resources.Font
-import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.resources.vectorResource
+import org.koin.compose.KoinContext
+import org.koin.compose.koinInject
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun App() = AppTheme {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .windowInsetsPadding(WindowInsets.safeDrawing)
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = stringResource(Res.string.cyclone),
-            fontFamily = FontFamily(Font(Res.font.IndieFlower_Regular)),
-            style = MaterialTheme.typography.displayLarge
-        )
+internal fun App() = KoinContext {
+    val platform: Platform = koinInject()
 
-        var isRotating by remember { mutableStateOf(false) }
-
-        val rotate = remember { Animatable(0f) }
-        val target = 360f
-        if (isRotating) {
-            LaunchedEffect(Unit) {
-                while (isActive) {
-                    val remaining = (target - rotate.value) / target
-                    rotate.animateTo(target, animationSpec = tween((1_000 * remaining).toInt(), easing = LinearEasing))
-                    rotate.snapTo(0f)
-                }
-            }
+    AppTheme {
+        var loginValue by rememberSaveable {
+            mutableStateOf("")
+        }
+        var passwordValue by rememberSaveable {
+            mutableStateOf("")
         }
 
-        Image(
-            modifier = Modifier
-                .size(250.dp)
-                .padding(16.dp)
-                .run { rotate(rotate.value) },
-            imageVector = vectorResource(Res.drawable.ic_cyclone),
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
-            contentDescription = null
-        )
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(text = "Log in")
+                    }
+                )
 
-        ElevatedButton(
-            modifier = Modifier
-                .padding(horizontal = 8.dp, vertical = 4.dp)
-                .widthIn(min = 200.dp),
-            onClick = { isRotating = !isRotating },
-            content = {
-                Icon(vectorResource(Res.drawable.ic_rotate_right), contentDescription = null)
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
                 Text(
-                    stringResource(if (isRotating) Res.string.stop else Res.string.run)
+                    text = "Current platform: ${platform.name}",
+                    style = MaterialTheme.typography.displayLarge
                 )
             }
-        )
+        ) { padding ->
+            Column(
+                modifier = Modifier.fillMaxSize()
+                    .padding(padding),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                TextField(
+                    modifier = Modifier.fillMaxWidth(0.9f),
+                    value = loginValue,
+                    onValueChange = { newText -> loginValue = newText },
+                    placeholder = { Text(text = "Login") }
+                )
 
-        var isDark by LocalThemeIsDark.current
-        val icon = remember(isDark) {
-            if (isDark) Res.drawable.ic_light_mode
-            else Res.drawable.ic_dark_mode
-        }
+                Spacer(modifier = Modifier.height(16.dp))
 
-        ElevatedButton(
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp).widthIn(min = 200.dp),
-            onClick = { isDark = !isDark },
-            content = {
-                Icon(vectorResource(icon), contentDescription = null)
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                Text(stringResource(Res.string.theme))
+                TextField(
+                    modifier = Modifier.fillMaxWidth(0.9f),
+                    value = passwordValue,
+                    onValueChange = { newText -> passwordValue = newText },
+                    placeholder = { Text(text = "Password") }
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = {
+
+                    }
+                ) {
+                    Text(text = "Authorize")
+                }
             }
-        )
-
-        val uriHandler = LocalUriHandler.current
-        TextButton(
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp).widthIn(min = 200.dp),
-            onClick = { uriHandler.openUri("https://github.com/terrakok") },
-        ) {
-            Text(stringResource(Res.string.open_github))
         }
     }
 }

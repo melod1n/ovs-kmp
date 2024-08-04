@@ -14,6 +14,14 @@ plugins {
 }
 
 kotlin {
+    // export correct artifact to use all classes of library directly from Swift
+    targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget::class.java).all {
+        binaries.withType(org.jetbrains.kotlin.gradle.plugin.mpp.Framework::class.java).all {
+            export("dev.icerock.moko:mvvm-core:0.16.1")
+            export("dev.icerock.moko:mvvm-state:0.16.1")
+        }
+    }
+
     androidTarget {
         compilations.all {
             compileTaskProvider {
@@ -58,6 +66,9 @@ kotlin {
             implementation(libs.multiplatformSettings)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+
+            api("dev.icerock.moko:mvvm-compose:0.16.1")
+            api("dev.icerock.moko:mvvm-flow-compose:0.16.1")
         }
 
         commonTest.dependencies {
@@ -89,11 +100,11 @@ kotlin {
 
 android {
     namespace = "dev.meloda.overseerr"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 34
 
         applicationId = "dev.meloda.overseerr.androidApp"
         versionCode = 1
