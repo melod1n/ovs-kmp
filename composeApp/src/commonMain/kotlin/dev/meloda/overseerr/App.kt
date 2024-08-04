@@ -5,6 +5,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.transitions.FadeTransition
 import dev.meloda.overseerr.screens.url.presentation.UrlScreen
 import dev.meloda.overseerr.theme.AppTheme
 import org.koin.compose.KoinContext
@@ -13,7 +14,9 @@ import org.koin.compose.KoinContext
 internal fun App() = KoinContext {
     AppTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            Navigator(UrlScreen())
+            Navigator(UrlScreen()) { navigator ->
+                FadeTransition(navigator)
+            }
         }
     }
 }

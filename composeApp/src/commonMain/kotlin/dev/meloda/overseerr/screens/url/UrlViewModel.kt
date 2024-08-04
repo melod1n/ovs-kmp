@@ -1,6 +1,6 @@
 package dev.meloda.overseerr.screens.url
 
-import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import androidx.lifecycle.ViewModel
 
 class UrlViewModel : ViewModel() {
 }
