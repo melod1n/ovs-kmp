@@ -1,4 +1,4 @@
-package dev.meloda.overseerr.login
+package dev.meloda.overseerr.screens.login
 
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 
