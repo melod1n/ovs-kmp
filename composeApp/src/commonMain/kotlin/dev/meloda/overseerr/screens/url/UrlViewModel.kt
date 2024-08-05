@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dev.meloda.overseerr.ext.setValue
 import dev.meloda.overseerr.screens.url.model.UrlScreenState
 import dev.meloda.overseerr.settings.SettingsController
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -53,6 +54,6 @@ class UrlViewModelImpl(
     }
 
     override fun onTestButtonClicked() {
-
+        Napier.v("Test button clicked")
     }
 }

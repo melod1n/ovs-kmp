@@ -66,7 +66,6 @@ kotlin {
             implementation(libs.ktor.core)
             implementation(libs.ktor.client.cio)
             implementation(libs.kotlinx.serialization.json)
-            implementation(libs.multiplatformSettings)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -74,6 +73,7 @@ kotlin {
             implementation(libs.haze.materials)
             implementation(libs.kstore)
             implementation(libs.kstore.file)
+            implementation(libs.napier)
         }
 
         commonTest.dependencies {

@@ -10,6 +10,8 @@ import cafe.adriel.voyager.transitions.FadeTransition
 import dev.meloda.overseerr.screens.main.MainScreen
 import dev.meloda.overseerr.settings.SettingsController
 import dev.meloda.overseerr.theme.AppTheme
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import org.koin.compose.KoinContext
 import org.koin.compose.koinInject
 
@@ -17,6 +19,9 @@ var appDir: String = ""
 
 @Composable
 internal fun App() = KoinContext {
+    LaunchedEffect(true) {
+        Napier.base(DebugAntilog())
+    }
 
     val settingsController: SettingsController = koinInject()
 
