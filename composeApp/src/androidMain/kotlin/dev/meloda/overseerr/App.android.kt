@@ -8,8 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 
 class AppActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appDir = filesDir.path
         enableEdgeToEdge()
         setContent { App() }
     }
@@ -17,4 +19,6 @@ class AppActivity : ComponentActivity() {
 
 @Preview
 @Composable
-fun AppPreview() { App() }
+fun AppPreview() {
+    App()
+}

@@ -72,6 +72,8 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.haze)
             implementation(libs.haze.materials)
+            implementation(libs.kstore)
+            implementation(libs.kstore.file)
         }
 
         commonTest.dependencies {
@@ -92,6 +94,7 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.appdirs)
         }
 
         iosMain.dependencies {

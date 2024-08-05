@@ -14,6 +14,8 @@ multiplatformSettings = "1.1.1"
 koin = "4.0.0-RC1"
 viewmodel-compose = "2.8.0"
 haze = "0.7.3"
+kstore = "0.8.0"
+appdirs = "1.2.2"
 
 [libraries]
 
@@ -39,7 +41,9 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 haze-materials = { module = "dev.chrisbanes.haze:haze-materials", version.ref = "haze" }
-
+kstore = { module = "io.github.xxfast:kstore", version.ref = "kstore" }
+kstore-file = { module = "io.github.xxfast:kstore-file", version.ref = "kstore" }
+appdirs = { module = "net.harawata:appdirs", version.ref = "appdirs" }
 
 [plugins]
 
