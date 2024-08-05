@@ -15,7 +15,7 @@ fun main() = application {
     Window(
         title = "Overseerr",
         state = rememberWindowState(width = 800.dp, height = 600.dp),
-        onCloseRequest = ::exitApplication,
+        onCloseRequest = ::exitApplication
     ) {
         window.minimumSize = Dimension(350, 600)
         App()

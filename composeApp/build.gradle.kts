@@ -69,8 +69,9 @@ kotlin {
             implementation(libs.multiplatformSettings)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
-
-            implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
+            implementation(libs.haze)
+            implementation(libs.haze.materials)
         }
 
         commonTest.dependencies {
@@ -101,11 +102,11 @@ kotlin {
 
 android {
     namespace = "dev.meloda.overseerr"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
 
         applicationId = "dev.meloda.overseerr.androidApp"
         versionCode = 1
