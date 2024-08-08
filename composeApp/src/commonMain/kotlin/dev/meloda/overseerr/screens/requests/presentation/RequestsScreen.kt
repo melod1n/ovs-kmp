@@ -1,7 +1,6 @@
 package dev.meloda.overseerr.screens.requests.presentation
 
-import ContentWithMessageBar
-import MessageBarPosition
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,14 +29,15 @@ import dev.chrisbanes.haze.materials.HazeMaterials
 import dev.meloda.overseerr.screens.requests.RequestsViewModel
 import dev.meloda.overseerr.screens.requests.RequestsViewModelImpl
 import dev.meloda.overseerr.screens.requests.model.RequestsScreenState
+import kotlinx.coroutines.delay
 import org.koin.compose.viewmodel.koinViewModel
-import rememberMessageBarState
+import kotlin.time.Duration.Companion.seconds
 
 class RequestsScreen : Screen {
 
     @OptIn(
         ExperimentalMaterial3Api::class,
-        ExperimentalHazeMaterialsApi::class
+        ExperimentalHazeMaterialsApi::class, ExperimentalMaterial3Api::class
     )
     @Composable
     override fun Content() {
@@ -49,17 +49,16 @@ class RequestsScreen : Screen {
         val hazeStyle = HazeMaterials.ultraThin()
 
         val refreshState = rememberPullToRefreshState()
-        val messageBarState = rememberMessageBarState()
 
         LaunchedEffect(screenState) {
-            if (screenState.apiErrorText != null) {
-                messageBarState.addError(Exception(screenState.apiErrorText))
-                viewModel.onErrorMessageShown()
+            if (screenState.apiInfo != null) {
+                delay(5.seconds)
+                viewModel.onSuccessMessageShown()
             }
 
-            if (screenState.apiInfo != null) {
-                messageBarState.addSuccess(screenState.apiInfo.toString())
-                viewModel.onSuccessMessageShown()
+            if (screenState.apiErrorText != null) {
+                delay(5.seconds)
+                viewModel.onErrorMessageShown()
             }
         }
 
@@ -97,65 +96,79 @@ class RequestsScreen : Screen {
         ) { padding ->
             val bottomPadding = padding.calculateBottomPadding()
 
-            ContentWithMessageBar(
-                messageBarState = messageBarState,
-                position = MessageBarPosition.BOTTOM
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = padding.calculateStartPadding(LayoutDirection.Ltr))
+                    .padding(end = padding.calculateEndPadding(LayoutDirection.Ltr))
             ) {
-                Box(
+                LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = padding.calculateStartPadding(LayoutDirection.Ltr))
-                        .padding(end = padding.calculateEndPadding(LayoutDirection.Ltr))
+                        .haze(
+                            state = hazeState,
+                            style = hazeStyle
+                        )
+                        .pullToRefresh(
+                            isRefreshing = screenState.isLoading,
+                            state = refreshState,
+                            onRefresh = viewModel::onRefresh
+                        )
                 ) {
-                    LazyColumn(
+                    item {
+                        Spacer(modifier = Modifier.height(padding.calculateTopPadding()))
+                    }
+                    item {
+                        AnimatedVisibility(screenState.apiErrorText != null || screenState.apiInfo != null) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(
+                                        if (screenState.apiInfo != null) Color(0xffb00b69)
+                                        else Color.Red
+                                    ),
+                                contentAlignment = Alignment.CenterStart
+                            ) {
+                                Text(
+                                    text = screenState.apiErrorText ?: screenState.apiInfo.toString(),
+                                    style = MaterialTheme.typography.headlineMedium,
+                                    modifier = Modifier.padding(10.dp)
+                                )
+                            }
+                        }
+                    }
+                    items(items = screenState.dummyItems) { index ->
+                        Text(
+                            text = "Text #${index + 1}",
+                            style = MaterialTheme.typography.headlineLarge,
+                            modifier = Modifier.background(Color.Red)
+                        )
+                        Spacer(modifier = Modifier.height(64.dp))
+                    }
+                    item {
+                        Spacer(modifier = Modifier.height(bottomPadding))
+                    }
+                }
+
+                Indicator(
+                    state = refreshState,
+                    isRefreshing = screenState.isLoading,
+                    modifier = Modifier.align(Alignment.TopCenter)
+                        .padding(top = padding.calculateTopPadding())
+                )
+
+                if (bottomPadding.value > 0) {
+                    Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .haze(
+                            .align(Alignment.BottomCenter)
+                            .hazeChild(
                                 state = hazeState,
                                 style = hazeStyle
                             )
-                            .pullToRefresh(
-                                isRefreshing = screenState.isLoading,
-                                state = refreshState,
-                                onRefresh = viewModel::onRefresh
-                            )
-                    ) {
-                        item {
-                            Spacer(modifier = Modifier.height(padding.calculateTopPadding()))
-                        }
-                        items(items = screenState.dummyItems) { index ->
-                            Text(
-                                text = "Text #${index + 1}",
-                                style = MaterialTheme.typography.headlineLarge,
-                                modifier = Modifier.background(Color.Red)
-                            )
-                            Spacer(modifier = Modifier.height(64.dp))
-                        }
-                        item {
-                            Spacer(modifier = Modifier.height(bottomPadding))
-                        }
-                    }
-
-                    Indicator(
-                        state = refreshState,
-                        isRefreshing = screenState.isLoading,
-                        modifier = Modifier.align(Alignment.TopCenter)
-                            .padding(top = padding.calculateTopPadding())
+                            .background(Color.Transparent)
+                            .height(bottomPadding)
+                            .fillMaxWidth()
                     )
-
-                    if (bottomPadding.value > 0) {
-                        Box(
-                            modifier = Modifier
-                                .align(Alignment.BottomCenter)
-                                .hazeChild(
-                                    state = hazeState,
-                                    style = hazeStyle
-                                )
-                                .background(Color.Transparent)
-                                .height(bottomPadding)
-                                .fillMaxWidth()
-                        )
-                    }
                 }
             }
         }

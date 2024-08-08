@@ -16,7 +16,6 @@ haze = "0.7.3"
 kstore = "0.8.0"
 appdirs = "1.2.2"
 napier = "2.7.1"
-message-bar = "1.0.5"
 
 [libraries]
 
@@ -49,7 +48,6 @@ kstore-file = { module = "io.github.xxfast:kstore-file", version.ref = "kstore" 
 kstore-storage = { module = "io.github.xxfast:kstore-storage", version.ref = "kstore" }
 appdirs = { module = "net.harawata:appdirs", version.ref = "appdirs" }
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
-message-bar = { module = "com.stevdza-san:messagebarkmp", version.ref = "message-bar" }
 
 [plugins]
 

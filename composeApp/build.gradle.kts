@@ -95,7 +95,6 @@ kotlin {
             implementation(libs.haze.materials)
             implementation(libs.kstore)
             implementation(libs.napier)
-            implementation(libs.message.bar)
         }
 
         commonTest.dependencies {
