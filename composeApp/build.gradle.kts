@@ -84,14 +84,18 @@ kotlin {
             implementation(libs.coil.network.ktor)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.ktor.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.kotlinx.serialization.json)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
             implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.haze)
             implementation(libs.haze.materials)
             implementation(libs.kstore)
             implementation(libs.napier)
+            implementation(libs.message.bar)
         }
 
         commonTest.dependencies {
@@ -124,6 +128,7 @@ kotlin {
 
         wasmJsMain.dependencies {
             implementation(libs.kstore.storage)
+            implementation(libs.ktor.client.js)
         }
     }
 }

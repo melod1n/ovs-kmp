@@ -17,13 +17,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.meloda.overseerr.screens.login.LoginViewModel
 import dev.meloda.overseerr.screens.login.LoginViewModelImpl
 import dev.meloda.overseerr.screens.login.model.LoginScreenState
+import org.koin.compose.viewmodel.koinViewModel
 
 class LoginScreen : Screen {
 
@@ -31,7 +31,7 @@ class LoginScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val viewModel: LoginViewModel = viewModel { LoginViewModelImpl() }
+        val viewModel: LoginViewModel = koinViewModel<LoginViewModelImpl>()
         val screenState: LoginScreenState by viewModel.screenState.collectAsState()
 
         var loginValue by rememberSaveable {

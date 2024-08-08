@@ -16,6 +16,7 @@ interface UrlViewModel {
     val screenState: StateFlow<UrlScreenState>
 
     fun onUrlInputChanged(newText: String)
+    fun onPlexTokenInputChanged(newToken: String)
     fun onLoadButtonClicked()
     fun onSaveButtonClicked()
     fun onTestButtonClicked()
@@ -29,7 +30,14 @@ class UrlViewModelImpl(
 
     init {
         settingsController.settings
-            .onEach { settings -> screenState.setValue { old -> old.copy(url = settings.url) } }
+            .onEach { settings ->
+                screenState.setValue { old ->
+                    old.copy(
+                        url = settings.url,
+                        plexToken = settings.plexToken
+                    )
+                }
+            }
             .launchIn(viewModelScope)
     }
 
@@ -37,18 +45,30 @@ class UrlViewModelImpl(
         screenState.setValue { old -> old.copy(url = newText) }
     }
 
+    override fun onPlexTokenInputChanged(newToken: String) {
+        screenState.setValue { old -> old.copy(plexToken = newToken) }
+    }
+
     override fun onLoadButtonClicked() {
         viewModelScope.launch {
             val settings = settingsController.loadAppSettings()
 
-            screenState.setValue { old -> old.copy(url = settings.url) }
+            screenState.setValue { old ->
+                old.copy(
+                    url = settings.url,
+                    plexToken = settings.plexToken
+                )
+            }
         }
     }
 
     override fun onSaveButtonClicked() {
         viewModelScope.launch {
             settingsController.updateAppSettings { settings ->
-                settings.copy(url = screenState.value.url)
+                settings.copy(
+                    url = screenState.value.url,
+                    plexToken = screenState.value.plexToken
+                )
             }
         }
     }

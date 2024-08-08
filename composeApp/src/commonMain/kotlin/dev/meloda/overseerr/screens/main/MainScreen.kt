@@ -11,7 +11,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.meloda.overseerr.screens.login.presentation.LoginScreen
-import dev.meloda.overseerr.screens.requests.RequestsScreen
+import dev.meloda.overseerr.screens.requests.presentation.RequestsScreen
 import dev.meloda.overseerr.screens.url.presentation.UrlScreen
 
 class MainScreen : Screen {

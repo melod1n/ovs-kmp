@@ -4,11 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AppSettings(
-    val url: String
+    val url: String = "",
+    val plexToken: String = ""
 ) {
     companion object {
-        val EMPTY: AppSettings = AppSettings(
-            url = ""
-        )
+        val EMPTY: AppSettings = AppSettings()
     }
 }

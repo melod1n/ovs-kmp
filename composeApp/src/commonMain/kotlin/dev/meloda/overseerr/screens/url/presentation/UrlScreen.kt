@@ -13,14 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.meloda.overseerr.screens.url.UrlViewModel
 import dev.meloda.overseerr.screens.url.UrlViewModelImpl
-import dev.meloda.overseerr.settings.SettingsController
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 class UrlScreen : Screen {
 
@@ -28,10 +26,7 @@ class UrlScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-
-        val settingsController: SettingsController = koinInject()
-        val viewModel: UrlViewModel = viewModel { UrlViewModelImpl(settingsController) }
-
+        val viewModel: UrlViewModel = koinViewModel<UrlViewModelImpl>()
         val screenState by viewModel.screenState.collectAsState()
 
         Scaffold(
@@ -67,6 +62,19 @@ class UrlScreen : Screen {
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Go,
                         keyboardType = KeyboardType.Uri
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = screenState.plexToken,
+                    onValueChange = viewModel::onPlexTokenInputChanged,
+                    placeholder = { Text(text = "Token") },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Go
                     )
                 )
 
