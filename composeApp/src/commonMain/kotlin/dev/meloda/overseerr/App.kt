@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.FadeTransition
 import dev.meloda.overseerr.screens.main.MainScreen
@@ -24,12 +26,13 @@ internal fun App() = KoinContext {
     }
 
     val settingsController: SettingsController = koinInject()
+    val settings by settingsController.settings.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
         settingsController.loadAppSettings()
     }
 
-    AppTheme {
+    AppTheme(themeMode = settings.themeMode) {
         Surface(modifier = Modifier.fillMaxSize()) {
             Navigator(MainScreen()) { navigator ->
                 FadeTransition(navigator)

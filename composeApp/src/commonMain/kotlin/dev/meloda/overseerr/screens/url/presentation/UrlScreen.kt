@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -27,7 +28,7 @@ class UrlScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val viewModel: UrlViewModel = koinViewModel<UrlViewModelImpl>()
-        val screenState by viewModel.screenState.collectAsState()
+        val screenState by viewModel.screenState.collectAsStateWithLifecycle()
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),

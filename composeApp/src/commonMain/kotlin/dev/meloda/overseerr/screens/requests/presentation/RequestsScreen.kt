@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -43,7 +44,7 @@ class RequestsScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val viewModel: RequestsViewModel = koinViewModel<RequestsViewModelImpl>()
-        val screenState: RequestsScreenState by viewModel.screenState.collectAsState()
+        val screenState: RequestsScreenState by viewModel.screenState.collectAsStateWithLifecycle()
 
         val hazeState = remember { HazeState() }
         val hazeStyle = HazeMaterials.ultraThin()

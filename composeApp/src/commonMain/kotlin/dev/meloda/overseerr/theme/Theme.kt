@@ -6,15 +6,22 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
+import dev.meloda.overseerr.settings.model.ThemeMode
 
 internal val LocalThemeIsDark = compositionLocalOf { mutableStateOf(true) }
 
 @Composable
 internal fun AppTheme(
+    themeMode: ThemeMode = ThemeMode.System,
     content: @Composable () -> Unit
 ) {
     val systemIsDark = isSystemInDarkTheme()
-    val isDarkState = remember { mutableStateOf(systemIsDark) }
+    val isDarkState = remember(themeMode, systemIsDark) {
+        mutableStateOf(
+            if (themeMode == ThemeMode.System) systemIsDark
+            else themeMode == ThemeMode.Dark
+        )
+    }
     CompositionLocalProvider(
         LocalThemeIsDark provides isDarkState
     ) {

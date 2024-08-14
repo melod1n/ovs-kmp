@@ -17,6 +17,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -32,7 +33,7 @@ class LoginScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val viewModel: LoginViewModel = koinViewModel<LoginViewModelImpl>()
-        val screenState: LoginScreenState by viewModel.screenState.collectAsState()
+        val screenState: LoginScreenState by viewModel.screenState.collectAsStateWithLifecycle()
 
         var loginValue by rememberSaveable {
             mutableStateOf(screenState.login)
