@@ -1,5 +1,4 @@
 
-*.iml
 .gradle
 .idea
 .kotlin
@@ -45,3 +44,4 @@ google-services.json
 
 # Android Profiling
 *.hprof
+/composeApp/src/androidMain/keystore/keystore.properties

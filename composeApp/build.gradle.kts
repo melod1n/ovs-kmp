@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import java.util.*
 
 plugins {
     alias(libs.plugins.multiplatform)
@@ -140,7 +141,7 @@ android {
         minSdk = 26
         targetSdk = 35
 
-        applicationId = "dev.meloda.overseerr.androidApp"
+        applicationId = "dev.meloda.overseerr"
         versionCode = 1
         versionName = "1.0.0"
 
@@ -157,8 +158,36 @@ android {
             }
         }
     }
+    signingConfigs {
+        create("release") {
+            val keystoreProperties = Properties()
+            val keystorePropertiesFile = file("./src/androidMain/keystore/keystore.properties")
+
+            storeFile = file("./src/androidMain/keystore/keystore.jks")
+
+            if (keystorePropertiesFile.exists()) {
+                keystorePropertiesFile.inputStream().let(keystoreProperties::load)
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            } else {
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("RELEASE_SIGN_KEY_ALIAS")
+                keyPassword = System.getenv("RELEASE_SIGN_KEY_PASSWORD")
+            }
+        }
+
+        create("debugSigning") {
+            initWith(getByName("release"))
+        }
+    }
     buildTypes {
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("debugSigning")
+        }
         getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
+
             isMinifyEnabled = false
         }
     }
@@ -184,7 +213,7 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "dev.meloda.overseerr.desktopApp"
+            packageName = "dev.meloda.overseerr"
             packageVersion = "1.0.0"
         }
     }
