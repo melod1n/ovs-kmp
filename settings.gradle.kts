@@ -1,4 +1,5 @@
 rootProject.name = "Overseerr"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {

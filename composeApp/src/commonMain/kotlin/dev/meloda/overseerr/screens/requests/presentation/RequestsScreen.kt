@@ -106,10 +106,7 @@ class RequestsScreen : Screen {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .haze(
-                            state = hazeState,
-                            style = hazeStyle
-                        )
+                        .haze(state = hazeState)
                         .pullToRefresh(
                             isRefreshing = screenState.isLoading,
                             state = refreshState,
