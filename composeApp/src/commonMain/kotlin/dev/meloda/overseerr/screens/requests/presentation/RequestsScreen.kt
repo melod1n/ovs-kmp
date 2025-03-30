@@ -22,9 +22,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.chrisbanes.haze.HazeState
-import dev.chrisbanes.haze.haze
-import dev.chrisbanes.haze.hazeChild
+import dev.chrisbanes.haze.*
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
 import dev.meloda.overseerr.screens.requests.RequestsViewModel
@@ -78,7 +76,7 @@ class RequestsScreen : Screen {
                     },
                     colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
                     modifier = Modifier
-                        .hazeChild(
+                        .hazeEffect(
                             state = hazeState,
                             style = hazeStyle
                         ).fillMaxWidth(),
@@ -106,7 +104,7 @@ class RequestsScreen : Screen {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .haze(state = hazeState)
+                        .hazeSource(state = hazeState)
                         .pullToRefresh(
                             isRefreshing = screenState.isLoading,
                             state = refreshState,
@@ -159,7 +157,7 @@ class RequestsScreen : Screen {
                     Box(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
-                            .hazeChild(
+                            .hazeEffect(
                                 state = hazeState,
                                 style = hazeStyle
                             )

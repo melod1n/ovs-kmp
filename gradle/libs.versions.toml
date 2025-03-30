@@ -1,31 +1,31 @@
 [versions]
 
-kotlin = "2.0.20-RC"
-compose = "1.7.0-alpha02"
-agp = "8.2.0"
+kotlin = "2.1.20"
+compose = "1.8.0-beta01"
+agp = "8.7.3"
 androidx-lifecycle = "2.8.4"
-androidx-activityCompose = "1.9.1"
-androidx-uiTest = "1.6.8"
-voyager = "1.1.0-beta02"
+androidx-activity-compose = "1.10.1"
+androidx-uitest = "1.7.8"
+voyager = "1.1.0-beta03"
 coil = "3.0.4"
-kotlinx-coroutines = "1.9.0"
-ktor = "3.0.0-beta-2"
-kotlinx-serialization = "1.7.1"
-koin = "4.0.0-RC1"
-viewmodel-compose = "2.8.0"
-haze = "0.7.3"
+kotlinx-coroutines = "1.10.1"
+ktor = "3.0.1"
+kotlinx-serialization = "1.8.0"
+koin = "4.0.3"
+viewmodel-compose = "2.8.3"
+haze = "1.5.2"
 kstore = "0.9.1"
 appdirs = "1.2.2"
 napier = "2.7.1"
 
 [libraries]
 
-androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "viewmodel-compose" }
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
-androidx-uitest-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-uiTest" }
-androidx-uitest-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-uiTest" }
+androidx-uitest-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-uitest" }
+androidx-uitest-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-uitest" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 coil = { module = "io.coil-kt.coil3:coil-compose-core", version.ref = "coil" }
