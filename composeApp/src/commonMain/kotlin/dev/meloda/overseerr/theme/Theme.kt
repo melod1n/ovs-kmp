@@ -6,6 +6,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
+import androidx.navigation.NavController
 import dev.meloda.overseerr.settings.model.ThemeMode
 
 internal val LocalThemeIsDark = compositionLocalOf { mutableStateOf(true) }
@@ -36,3 +37,6 @@ internal fun AppTheme(
 
 @Composable
 internal expect fun SystemAppearance(isDark: Boolean)
+
+@Composable
+internal expect fun NavigationSettings(navController: NavController)

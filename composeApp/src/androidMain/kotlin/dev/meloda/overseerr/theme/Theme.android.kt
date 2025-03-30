@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.navigation.NavController
 
 @Composable
 internal actual fun SystemAppearance(isDark: Boolean) {
@@ -16,4 +17,8 @@ internal actual fun SystemAppearance(isDark: Boolean) {
             isAppearanceLightNavigationBars = isDark
         }
     }
+}
+
+@Composable
+internal actual fun NavigationSettings(navController: NavController) {
 }

@@ -2,6 +2,7 @@ package dev.meloda.overseerr.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.navigation.NavController
 import platform.UIKit.UIApplication
 import platform.UIKit.UIStatusBarStyleDarkContent
 import platform.UIKit.UIStatusBarStyleLightContent
@@ -14,4 +15,8 @@ internal actual fun SystemAppearance(isDark: Boolean) {
             if (isDark) UIStatusBarStyleDarkContent else UIStatusBarStyleLightContent
         )
     }
+}
+
+@Composable
+internal actual fun NavigationSettings(navController: NavController) {
 }

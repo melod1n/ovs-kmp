@@ -1,5 +1,5 @@
 package dev.meloda.overseerr.model
 
-actual class Platform actual constructor() {
+internal actual class Platform actual constructor() {
     actual val name: String = "JS"
 }

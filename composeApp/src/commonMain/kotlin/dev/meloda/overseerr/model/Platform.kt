@@ -1,5 +1,5 @@
 package dev.meloda.overseerr.model
 
-expect class Platform() {
+internal expect class Platform() {
     val name: String
 }
