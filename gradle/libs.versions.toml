@@ -14,7 +14,7 @@ koin = "4.0.3"
 viewmodel-compose = "2.8.3"
 haze = "1.5.2"
 kstore = "0.9.1"
-appdirs = "1.2.2"
+appdirs = "1.4.0"
 napier = "2.7.1"
 androidx-navigation-compose = "2.9.0-alpha15"
 
