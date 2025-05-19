@@ -21,37 +21,41 @@ kotlin {
         }
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
+    jvm()
+
+    if (providers.gradleProperty("include_ios").get().toBoolean()) {
+        listOf(
+            iosX64(),
+            iosArm64(),
+            iosSimulatorArm64()
+        ).forEach { iosTarget ->
+            iosTarget.binaries.framework {
+                baseName = "ComposeApp"
+                isStatic = true
+            }
         }
     }
 
-    jvm()
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        outputModuleName = "composeApp"
-        browser {
-            val rootDirPath = project.rootDir.path
-            val projectDirPath = project.projectDir.path
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(rootDirPath)
-                        add(projectDirPath)
+    if (providers.gradleProperty("include_wasm").get().toBoolean()) {
+        @OptIn(ExperimentalWasmDsl::class)
+        wasmJs {
+            outputModuleName = "composeApp"
+            browser {
+                val rootDirPath = project.rootDir.path
+                val projectDirPath = project.projectDir.path
+                commonWebpackConfig {
+                    outputFileName = "composeApp.js"
+                    devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                        static = (static ?: mutableListOf()).apply {
+                            // Serve sources to debug inside browser
+                            add(rootDirPath)
+                            add(projectDirPath)
+                        }
                     }
                 }
             }
+            binaries.executable()
         }
-        binaries.executable()
     }
 
     sourceSets {
@@ -104,14 +108,18 @@ kotlin {
             implementation(libs.kstore.file)
         }
 
-        iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
-            implementation(libs.kstore.file)
+        findByName("iosMain")?.run {
+            dependencies {
+                implementation(libs.ktor.client.darwin)
+                implementation(libs.kstore.file)
+            }
         }
 
-        wasmJsMain.dependencies {
-            implementation(libs.kstore.storage)
-            implementation(libs.ktor.client.js)
+        findByName("wasmJsMain")?.run {
+            dependencies {
+                implementation(libs.kstore.storage)
+                implementation(libs.ktor.client.js)
+            }
         }
     }
 }
