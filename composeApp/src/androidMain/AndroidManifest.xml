@@ -5,6 +5,7 @@
         android:name=".common.AppGlobal"
         android:icon="@android:drawable/ic_menu_compass"
         android:label="Overseerr"
+        android:usesCleartextTraffic="true"
         android:theme="@android:style/Theme.Material.NoActionBar">
 
         <activity
@@ -14,8 +15,8 @@
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
