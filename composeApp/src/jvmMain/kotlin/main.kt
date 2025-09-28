@@ -21,9 +21,11 @@ fun main() = application {
         File(appDir).mkdirs()
     }
 
+    val state = rememberWindowState(width = 800.dp, height = 600.dp)
+
     Window(
         title = "Overseerr",
-        state = rememberWindowState(width = 800.dp, height = 600.dp),
+        state = state,
         onCloseRequest = ::exitApplication
     ) {
         window.minimumSize = Dimension(320, 480)

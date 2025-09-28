@@ -10,6 +10,7 @@ import androidx.compose.ui.window.ComposeViewport
 import dev.meloda.overseerr.App
 import dev.meloda.overseerr.di.appModule
 import kotlinx.browser.document
+import kotlinx.browser.window
 import org.koin.compose.KoinApplication
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -22,8 +23,8 @@ fun main() {
             ) {
                 Box(
                     modifier = Modifier
-                        .width(360.dp)
-                        .height(640.dp)
+                        .width(window.innerWidth.coerceIn(360..600).dp)
+                        .height(window.innerHeight.coerceIn(minimumValue = 360, maximumValue = null).dp)
                 ) {
                     App()
                 }
