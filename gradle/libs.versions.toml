@@ -12,7 +12,6 @@ kotlinx-coroutines = "1.10.2"
 ktor = "3.3.0"
 kotlinx-serialization = "1.9.0"
 koin = "4.1.1"
-material3 = "1.9.0-beta06"
 viewmodel-compose = "2.9.4"
 haze = "1.6.10"
 kstore = "1.0.0"
@@ -51,7 +50,6 @@ kstore = { module = "io.github.xxfast:kstore", version.ref = "kstore" }
 kstore-file = { module = "io.github.xxfast:kstore-file", version.ref = "kstore" }
 kstore-storage = { module = "io.github.xxfast:kstore-storage", version.ref = "kstore" }
 appdirs = { module = "net.harawata:appdirs", version.ref = "appdirs" }
-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 
 [plugins]
