@@ -1,20 +1,24 @@
 package dev.meloda.overseerr.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
 import androidx.navigation.NavController
-import dev.meloda.overseerr.settings.model.ThemeMode
+import dev.chrisbanes.haze.HazeState
+import dev.meloda.overseerr.datastore.model.ThemeMode
 
-internal val LocalThemeIsDark = compositionLocalOf { mutableStateOf(true) }
+val LocalThemeIsDark = compositionLocalOf { mutableStateOf(true) }
+val LocalHazeState = compositionLocalOf { HazeState(true) }
+val LocalPadding = compositionLocalOf { PaddingValues() }
 
 @Composable
 internal fun AppTheme(
     themeMode: ThemeMode = ThemeMode.System,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val systemIsDark = isSystemInDarkTheme()
     val isDarkState = remember(themeMode, systemIsDark) {

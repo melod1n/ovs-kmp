@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.meloda.overseerr.ext.setValue
 import dev.meloda.overseerr.screens.requests.model.RequestsScreenState
-import dev.meloda.overseerr.settings.SettingsController
+import dev.meloda.overseerr.datastore.SettingsController
 import io.github.aakira.napier.Napier
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -27,7 +27,7 @@ interface RequestsViewModel {
 
 class RequestsViewModelImpl(
     private val httpClient: HttpClient,
-    private val settingsController: SettingsController
+    private val settingsController: SettingsController,
 ) : ViewModel(), RequestsViewModel {
 
     override val screenState = MutableStateFlow(RequestsScreenState.EMPTY)
@@ -54,7 +54,7 @@ class RequestsViewModelImpl(
             kotlin.runCatching {
                 httpClient.get("${settingsController.settings.value.url}/api/v1") {
                     headers {
-                        append("X-Api-Key", settingsController.settings.value.plexToken)
+                        append("X-Api-Key", settingsController.settings.value.plexToken.orEmpty())
                     }
                 }.body() as ApiInfo
             }.fold(
@@ -74,5 +74,5 @@ class RequestsViewModelImpl(
 @Serializable
 data class ApiInfo(
     val api: String,
-    val version: String
+    val version: String,
 )

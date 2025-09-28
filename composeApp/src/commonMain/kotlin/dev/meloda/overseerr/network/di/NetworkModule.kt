@@ -1,6 +1,6 @@
 package dev.meloda.overseerr.network.di
 
-import dev.meloda.overseerr.network.model.HttpClientEngineFactoryProvider
+import dev.meloda.overseerr.network.HttpClientEngineFactoryProvider
 import io.ktor.client.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*

@@ -32,7 +32,7 @@ data object LoginScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(onBack: () -> Unit = {}) {
+fun LoginScreen() {
     val viewModel: LoginViewModel = koinViewModel<LoginViewModelImpl>()
     val screenState: LoginScreenState by viewModel.screenState.collectAsStateWithLifecycle()
 
@@ -43,23 +43,7 @@ fun LoginScreen(onBack: () -> Unit = {}) {
         mutableStateOf(screenState.password)
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = "Log in")
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = null
-                        )
-                    }
-                }
-            )
-        }
-    ) { padding ->
+    Scaffold(topBar = { TopAppBar(title = { Text(text = "Log in") }) }) { padding ->
         Column(
             modifier = Modifier.fillMaxSize()
                 .padding(padding),

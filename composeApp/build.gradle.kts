@@ -3,6 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.*
 
 plugins {
@@ -12,6 +13,17 @@ plugins {
     alias(libs.plugins.compose.hot.reload)
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlinx.serialization)
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        freeCompilerArgs.addAll(
+            "-opt-in=kotlin.RequiresOptIn",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-opt-in=kotlinx.coroutines.FlowPreview",
+            "-Xexpect-actual-classes"
+        )
+    }
 }
 
 kotlin {
@@ -172,6 +184,7 @@ android {
         }
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
+//            signingConfig = signingConfigs.getByName("debug")
 
             isMinifyEnabled = true
             isShrinkResources = true
