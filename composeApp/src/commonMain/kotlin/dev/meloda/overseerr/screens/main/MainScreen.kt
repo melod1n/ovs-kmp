@@ -39,6 +39,7 @@ import dev.meloda.overseerr.screens.requests.presentation.RequestsScreen
 import dev.meloda.overseerr.screens.settings.presentation.SettingsScreen
 import dev.meloda.overseerr.theme.LocalHazeState
 import dev.meloda.overseerr.theme.LocalPadding
+import dev.meloda.overseerr.theme.NavigationSettings
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
 @Composable
@@ -46,6 +47,7 @@ fun MainScreen() {
     val hazeState = remember { HazeState(true) }
 
     val navController = rememberNavController()
+    NavigationSettings(navController)
 
     val navigationItems = remember {
         listOf(
