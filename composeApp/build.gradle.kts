@@ -126,11 +126,11 @@ kotlin {
 
 android {
     namespace = "dev.meloda.overseerr"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
 
         applicationId = "dev.meloda.overseerr"
         versionCode = 1
