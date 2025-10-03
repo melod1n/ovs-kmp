@@ -1,6 +1,7 @@
-package dev.meloda.overseerr.settings.model
+package dev.meloda.overseerr.datastore
 
 import dev.meloda.overseerr.appDir
+import dev.meloda.overseerr.datastore.model.AppSettings
 import io.github.xxfast.kstore.KStore
 import io.github.xxfast.kstore.file.storeOf
 import kotlinx.io.files.Path

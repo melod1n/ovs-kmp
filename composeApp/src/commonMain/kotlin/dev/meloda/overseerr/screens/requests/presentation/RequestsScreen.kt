@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
-import dev.chrisbanes.haze.materials.HazeMaterials
 import dev.meloda.overseerr.screens.requests.RequestsViewModel
 import dev.meloda.overseerr.screens.requests.RequestsViewModelImpl
 import dev.meloda.overseerr.screens.requests.model.RequestsScreenState

@@ -2,8 +2,6 @@ import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.*
 
 plugins {
@@ -15,21 +13,6 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
 }
 
-tasks.withType<KotlinCompile>().configureEach {
-    compilerOptions {
-        freeCompilerArgs.addAll(
-            "-opt-in=kotlin.RequiresOptIn",
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-opt-in=kotlinx.coroutines.FlowPreview",
-            "-Xexpect-actual-classes"
-        )
-    }
-}
-
-compose.resources {
-    nameOfResClass = "R"
-}
-
 kotlin {
     androidTarget {
         compilerOptions {
@@ -39,53 +22,48 @@ kotlin {
 
     jvm()
 
-    if (providers.gradleProperty("include_ios").get().toBoolean()) {
-        listOf(
-            iosX64(),
-            iosArm64(),
-            iosSimulatorArm64()
-        ).forEach { iosTarget ->
-            iosTarget.binaries.framework {
-                baseName = "ComposeApp"
-                isStatic = true
-            }
+    listOf(
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
         }
     }
 
-    if (providers.gradleProperty("include_wasm").get().toBoolean()) {
-        @OptIn(ExperimentalWasmDsl::class)
-        wasmJs {
-            outputModuleName = "composeApp"
-            browser {
-                val rootDirPath = project.rootDir.path
-                val projectDirPath = project.projectDir.path
-                commonWebpackConfig {
-                    outputFileName = "composeApp.js"
-                    devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                        static = (static ?: mutableListOf()).apply {
-                            // Serve sources to debug inside browser
-                            add(rootDirPath)
-                            add(projectDirPath)
-                        }
-                    }
-                }
-            }
-            binaries.executable()
-        }
+    js {
+        browser()
+        binaries.executable()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(compose.preview)
+            implementation(libs.androidx.activityCompose)
+            implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.kstore.file)
+        }
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
             implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.coil)
             implementation(libs.coil.network.ktor)
             implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.ktor.core)
+            implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.kotlinx.serialization.json)
             implementation(libs.kotlinx.serialization.json)
@@ -102,18 +80,10 @@ kotlin {
         }
 
         commonTest.dependencies {
-            implementation(kotlin("test"))
+            implementation(libs.kotlin.test)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.uiTest)
             implementation(libs.kotlinx.coroutines.test)
-        }
-
-        androidMain.dependencies {
-            implementation(compose.uiTooling)
-            implementation(libs.androidx.activityCompose)
-            implementation(libs.kotlinx.coroutines.android)
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.kstore.file)
         }
 
         jvmMain.dependencies {
@@ -124,18 +94,14 @@ kotlin {
             implementation(libs.kstore.file)
         }
 
-        findByName("iosMain")?.run {
-            dependencies {
-                implementation(libs.ktor.client.darwin)
-                implementation(libs.kstore.file)
-            }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+            implementation(libs.kstore.file)
         }
 
-        findByName("wasmJsMain")?.run {
-            dependencies {
-                implementation(libs.kstore.storage)
-                implementation(libs.ktor.client.js)
-            }
+        webMain.dependencies {
+            implementation(libs.kstore.storage)
+            implementation(libs.ktor.client.js)
         }
     }
 }
@@ -211,6 +177,10 @@ dependencies {
     debugImplementation(compose.uiTooling)
 }
 
+compose.resources {
+    nameOfResClass = "R"
+}
+
 compose.desktop {
     application {
         mainClass = "MainKt"
@@ -221,4 +191,13 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+kotlin {
+    compilerOptions.freeCompilerArgs.addAll(
+        "-opt-in=kotlin.RequiresOptIn",
+        "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+        "-opt-in=kotlinx.coroutines.FlowPreview",
+        "-Xexpect-actual-classes"
+    )
 }

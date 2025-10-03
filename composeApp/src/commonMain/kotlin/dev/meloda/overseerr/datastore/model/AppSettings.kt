@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 data class AppSettings(
     val url: String? = null,
     val plexToken: String? = null,
-    val themeMode: ThemeMode = ThemeMode.System,
+    val themeMode: ThemeMode = ThemeMode.System
 ) {
     companion object {
         val EMPTY: AppSettings = AppSettings()

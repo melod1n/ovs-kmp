@@ -5,10 +5,8 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import dev.meloda.overseerr.App
 import dev.meloda.overseerr.appDir
-import dev.meloda.overseerr.di.appModule
 import io.github.aakira.napier.Napier
 import net.harawata.appdirs.AppDirsFactory
-import org.koin.compose.KoinApplication
 import java.awt.Dimension
 import java.io.File
 
@@ -28,10 +26,10 @@ fun main() = application {
         state = state,
         onCloseRequest = ::exitApplication
     ) {
-        window.minimumSize = Dimension(320, 480)
-
-        KoinApplication(application = { modules(appModule) }) {
-            App()
+        LaunchedEffect(Unit) {
+            window.minimumSize = Dimension(320, 480)
         }
+
+        App()
     }
 }
