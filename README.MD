@@ -1,3 +1,6 @@
+> [!NOTE]
+> This project is archived and no longer maintained. It was an experimental Kotlin Multiplatform client for Overseerr.
+
 # Compose Multiplatform Application
 
 ## Before running!
